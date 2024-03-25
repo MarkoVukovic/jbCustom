@@ -4,14 +4,14 @@ module.exports = function configJSON(req) {
     metaData: {
       // the location of our icon file
       icon: `images/icon.svg`,
-      category: 'customer'
+      category: 'Custom'
     },
     // For Custom Activity this must say, "REST"
     type: 'REST',
     lang: {
       'en-US': {
-        name: 'Discount Code',
-        description: 'Issue a discount code to contact them to entice them to buy something.'
+        name: 'DO NOT USE!',
+        description: 'DO NOT USE'
       }
     },
     arguments: {
@@ -19,7 +19,7 @@ module.exports = function configJSON(req) {
         // See: https://developer.salesforce.com/docs/atlas.en-us.mc-apis.meta/mc-apis/how-data-binding-works.htm
         inArguments: [
           {
-            discount: 10
+            smsInput: 10
           }
         ],
         outArguments: [],
@@ -59,13 +59,8 @@ module.exports = function configJSON(req) {
         execute: {
           inArguments: [],
           outArguments: [{
-            discountCode: {
+            smsInput: {
               dataType: 'Text',
-              direction: 'out',
-              access: 'visible'
-            },
-            discount: {
-              dataType: 'Number',
               direction: 'out',
               access: 'visible'
             }
