@@ -116,12 +116,6 @@ function onInitActivity(payload) {
     console.log('activity:\n ', JSON.stringify(activity, null, 4));
     console.log('-------------------------------------------------');
 
-    // render all of this activity's outcomes into a drop down list
-    const selectOptions = activity.outcomes.map((outcome) => {
-        const value = outcome.arguments.branchResult;
-        const text = outcome.metaData.label;
-        return `<option value="${value}">${text}</option>`;
-    });
 
     // There is no need to have the disabled attribute on the close button as there
     // are no options for the user to select.
@@ -137,17 +131,14 @@ function onDoneButtonClick() {
     activity.name = 'Code Engagement';
 
     // get the option that the user selected and save it to
-    const select = document.getElementById('discount-code');
-    const option = select.options[select.selectedIndex];
+    const select = document.getElementById('sms-input').value;
 
     // Iterate over the inArguments and replace the data-binding string
     // to reflect the activity that they selected above.
     activity.arguments.execute.inArguments.forEach(inArg => {
-        if(inArg.discount) {
-            inArg.discount = `{{Interaction.${option.value}.discount}}`;
-        } else if(inArg.discountCode) {
-            inArg.discountCode = `{{Interaction.${option.value}.discountCode}}`;
-        }
+        if(inArg.smsInput) {
+            inArg.smsInput = `{{Interaction.${select}}}`;
+        } 
     });
 
     // get the option that the user selected and save it to
