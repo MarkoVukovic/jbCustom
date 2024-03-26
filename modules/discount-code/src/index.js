@@ -71,14 +71,9 @@ function onInitActivity(payload) {
     // check if this activity has an incoming argument.
     // this would be set on the server side when the activity executes
     // (take a look at execute() in ./discountCode/app.js to see where that happens)
-    const discountArgument = inArguments.find((arg) => arg.discount);
+    const smsInputArgument = inArguments.find((arg) => arg.smsInput);
 
-    console.log('Discount Argument', discountArgument);
-
-    // if a discountCode back argument was set, show the message in the view.
-    if (discountArgument) {
-        selectDiscountCodeOption(discountArgument.discount);
-    }
+    console.log('SMS Argument', smsInputArgument);
 
     // if the discountCode back argument doesn't exist the user can pick
     // a discountCode message from the drop down list. the discountCode back arg
@@ -91,15 +86,14 @@ function onDoneButtonClick() {
     activity.metaData.isConfigured = true;
 
     // get the option that the user selected and save it to
-    const select = document.getElementById('discount-code');
-    const option = select.options[select.selectedIndex];
+    const select = document.getElementById('sms-input');
 
     activity.arguments.execute.inArguments = [{
-        discount: option.value,
+        smsInput: select.value,
     }];
 
     // you can set the name that appears below the activity with the name property
-    activity.name = `Issue ${activity.arguments.execute.inArguments[0].discount}% Code`;
+    activity.name = `Issue ${activity.arguments.execute.inArguments[0].smsInput}% Code`;
 
     console.log('------------ triggering:updateActivity({obj}) ----------------');
     console.log('Sending message back to updateActivity');
@@ -118,37 +112,10 @@ function onCancelButtonClick() {
     connection.trigger('requestInspectorClose');
 }
 
-function onDiscountCodeSelectChange() {
-    // enable or disable the done button when the select option changes
-    const select = document.getElementById('discount-code');
-
-    if (select.selectedIndex) {
-        document.getElementById('done').removeAttribute('disabled');
-    } else {
-        document.getElementById('done').setAttribute('disabled', '');
-    }
-
-    // let journey builder know the activity has changes
-    connection.trigger('setActivityDirtyState', true);
-}
-
-function selectDiscountCodeOption(value) {
-    const select = document.getElementById('discount-code');
-    const selectOption = select.querySelector(`[value='${value}']`);
-
-    if (selectOption) {
-        selectOption.selected = true;
-        onDiscountCodeSelectChange();
-    } else {
-        console.log('Could not select value from list', `[value='${value}]'`);
-    }
-}
-
 function setupEventHandlers() {
     // Listen to events on the form
     document.getElementById('done').addEventListener('click', onDoneButtonClick);
     document.getElementById('cancel').addEventListener('click', onCancelButtonClick);
-    document.getElementById('discount-code').addEventListener('change', onDiscountCodeSelectChange);
 }
 
 // this function is for example purposes only. it sets ups a Postmonger

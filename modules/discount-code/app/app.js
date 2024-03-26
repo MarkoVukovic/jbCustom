@@ -148,19 +148,11 @@ module.exports = function discountCodeExample(app, options) {
          *    "discountCode":"ADUXN-96454-15%"
          * }
          */
-        function generateRandomCode() {
-            let toReturn = String.fromCharCode(65+(Math.random() * 5));
-            for(let i = 0; i < 4; i++) {
-                toReturn += String.fromCharCode(65+(Math.random() * 25));
-            }
-            return toReturn + "-" + Math.round(Math.random() * 99999, 0);
-        }
 
         // example: https://developer.salesforce.com/docs/atlas.en-us.noversion.mc-app-development.meta/mc-app-development/example-rest-activity.htm
-        const discountInArgument = getInArgument('discount') || 'nothing';
+        const discountInArgument = getInArgument('smsInput') || 'nothing';
         const responseObject = {
-            discount: discountInArgument,
-            discountCode: generateRandomCode() + `-${discountInArgument}%`
+            smsInput: discountInArgument
         };
 
         console.log('Response Object', JSON.stringify(responseObject));
