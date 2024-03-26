@@ -88,8 +88,8 @@ module.exports = function discountCodeExample(app, options) {
      */
     app.post('/modules/discount-code/validate', function(req, res) {
         console.log('debug: /modules/discount-code/validate');
-        console.log('req: ' + req);
-        console.log('res: ' + res);
+        console.log('req: ' + JSON.stringify(req));
+        console.log('res: ' + JSON.stringify(res));
         return res.status(200).json({});
     });
 
